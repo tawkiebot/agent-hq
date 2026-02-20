@@ -1,95 +1,40 @@
 "use client"
 
-import type React from "react"
-
 import Link from "next/link"
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { useSound } from "@/components/sound-provider"
+import { SYSTEMS, TEMPLATES, VENDORS } from "@/lib/catalog"
 import {
   ArrowRight,
-  Mic,
   Zap,
   Search,
-  BarChart3,
-  BookOpen,
-  Target,
-  TrendingUp,
-  Quote,
-  ChevronRight,
   Layers,
-  Headphones,
+  Box,
+  Building2,
   Code2,
-  MessageSquare,
-  Users,
+  Shield,
+  Database,
+  Cpu,
 } from "lucide-react"
 
 export default function LandingPage() {
   const { play } = useSound()
-  const [email, setEmail] = useState("")
-  const [subscribing, setSubscribing] = useState(false)
-  const [subscribed, setSubscribed] = useState(false)
 
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!email.trim()) return
-
-    setSubscribing(true)
-    play("click")
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    setSubscribed(true)
-    setSubscribing(false)
-    setEmail("")
-  }
-
-  const featuredArticles = [
-    {
-      type: "Benchmark",
-      title: "We Tested 10 Voice-to-Text APIs So You Don't Have To",
-      excerpt: "Same input. Real numbers. No marketing. We ran automated benchmarks across Deepgram, AssemblyAI, Whisper, and more.",
-      date: "Feb 2026",
-      readTime: "8 min",
-    },
-    {
-      type: "Review",
-      title: "Wispr Flow Review: The Voice Coding Tool Everyone's Talking About",
-      excerpt: "We used Wispr Flow for 30 days. Here's the unfiltered truth about what actually works—and what doesn't.",
-      date: "Feb 2026",
-      readTime: "12 min",
-    },
-    {
-      type: "Comparison",
-      title: "Whisper vs Wispr vs ElevenLabs: Which Voice Tool Actually Works?",
-      excerpt: "The honest comparison developers need. We break down pricing, quality, latency, and real-world performance.",
-      date: "Feb 2026",
-      readTime: "10 min",
-    },
-    {
-      type: "Opinion",
-      title: "Why Most Voice Coding Tools Are Overhyped",
-      excerpt: "The truth about what actually matters. We cut through the hype to find what really works for developers.",
-      date: "Feb 2026",
-      readTime: "6 min",
-    },
+  const stats = [
+    { value: SYSTEMS.length, label: "Agent Systems", color: "text-emerald-400" },
+    { value: TEMPLATES.length, label: "Templates", color: "text-blue-400" },
+    { value: VENDORS.length, label: "Vendors", color: "text-violet-400" },
   ]
 
   const categories = [
-    { name: "Speech-to-Text", icon: Mic, count: 12, color: "text-emerald-400" },
-    { name: "Text-to-Speech", icon: Headphones, count: 8, color: "text-blue-400" },
-    { name: "Voice Agents", icon: MessageSquare, count: 6, color: "text-violet-400" },
-    { name: "Voice Coding", icon: Code2, count: 5, color: "text-amber-400" },
-    { name: "Meeting Assistants", icon: Users, count: 4, color: "text-cyan-400" },
-    { name: "Benchmarks", icon: BarChart3, count: 3, color: "text-rose-400" },
-  ]
-
-  const stats = [
-    { value: "63", label: "Tools Cataloged", color: "text-emerald-400" },
-    { value: "718", label: "Articles Analyzed", color: "text-blue-400" },
-    { value: "11", label: "Reviews Published", color: "text-violet-400" },
-    { value: "6", label: "Categories", color: "text-amber-400" },
+    { name: "Frontend", icon: Code2, count: 2, color: "text-blue-400", desc: "UI generation, SSR, component specs" },
+    { name: "Backend", icon: Layers, count: 1, color: "text-emerald-400", desc: "API design, auth, caching" },
+    { name: "DevOps", icon: Box, count: 1, color: "text-amber-400", desc: "Pipelines, policies, infrastructure" },
+    { name: "Security", icon: Shield, count: 1, color: "text-rose-400", desc: "SAST, DAST, vulnerability scanning" },
+    { name: "Data", icon: Database, count: 1, color: "text-cyan-400", desc: "SQL models, metrics, dashboards" },
+    { name: "Systems", icon: Cpu, count: 1, color: "text-violet-400", desc: "Performance, profiling, optimization" },
   ]
 
   return (
@@ -117,14 +62,8 @@ export default function LandingPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-baseline gap-3">
               <span className="font-mono text-sm font-bold tracking-[0.25em] uppercase text-neutral-100">
-                agentreport<span className="text-emerald-400">.io</span>
+                agent-hq<span className="text-emerald-400">.io</span>
               </span>
-              <Badge
-                variant="outline"
-                className="border-emerald-700/50 text-emerald-300 bg-emerald-950/30 font-mono text-[10px] px-2 py-0.5"
-              >
-                BETA
-              </Badge>
             </div>
             <div className="flex items-center gap-3">
               <Button
@@ -134,7 +73,7 @@ export default function LandingPage() {
                 className="border-neutral-700 bg-neutral-900/50 text-neutral-200 hover:bg-neutral-800 hover:border-emerald-600/50 u-anim u-lift font-mono text-xs"
                 onMouseEnter={() => play("hover")}
               >
-                <Link href="/articles">Articles</Link>
+                <Link href="/agents">Agents</Link>
               </Button>
               <Button
                 asChild
@@ -143,7 +82,16 @@ export default function LandingPage() {
                 className="border-neutral-700 bg-neutral-900/50 text-neutral-200 hover:bg-neutral-800 hover:border-blue-600/50 u-anim u-lift font-mono text-xs"
                 onMouseEnter={() => play("hover")}
               >
-                <Link href="/tools">Tool Directory</Link>
+                <Link href="/systems">Systems</Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="border-neutral-700 bg-neutral-900/50 text-neutral-200 hover:bg-neutral-800 hover:border-violet-600/50 u-anim u-lift font-mono text-xs"
+                onMouseEnter={() => play("hover")}
+              >
+                <Link href="/tools">Tools</Link>
               </Button>
             </div>
           </div>
@@ -160,28 +108,28 @@ export default function LandingPage() {
                 className="border-emerald-600/50 bg-emerald-950/40 text-emerald-200 font-mono text-sm px-4 py-2 u-anim u-glow"
               >
                 <Zap className="mr-2 h-4 w-4 text-emerald-400" />
-                Written by agents, for agents
+                Open source agent directory
               </Badge>
             </div>
 
             <h1 className="mb-6 text-5xl font-bold tracking-tight text-neutral-100 sm:text-7xl">
-              Voice AI.
+              Agent HQ
               <br />
-              <span className="text-emerald-400">Decoded.</span>
+              <span className="text-emerald-400">Your Agent Infrastructure</span>
             </h1>
 
             <p className="mx-auto mb-10 max-w-2xl text-lg text-neutral-400">
-              Independent benchmarks, deep reviews, and real analysis on voice AI tools. 
-              No fluff. No marketing. Just data.
+              A curated directory of AI agents, systems, and templates. 
+              Built for developers who want to harness the power of autonomous agents.
             </p>
 
             <div className="mx-auto mb-12 max-w-xl">
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-neutral-500" />
-                <Input
+                <input
                   type="text"
-                  placeholder="Search tools, articles, or topics..."
-                  className="h-14 border-neutral-800 bg-neutral-900/50 pl-12 pr-4 text-neutral-200 placeholder:text-neutral-500 focus:border-emerald-600 focus:ring-emerald-600/20"
+                  placeholder="Search agents, systems, or templates..."
+                  className="h-14 w-full rounded-lg border border-neutral-800 bg-neutral-900/50 pl-12 pr-4 text-neutral-200 placeholder:text-neutral-500 focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600/20"
                 />
                 <kbd className="absolute right-4 top-1/2 -translate-y-1/2 rounded border border-neutral-700 bg-neutral-800 px-2 py-0.5 font-mono text-xs text-neutral-500">
                   /
@@ -195,8 +143,8 @@ export default function LandingPage() {
                 className="bg-emerald-600 text-neutral-100 hover:bg-emerald-500 u-anim u-lift font-mono"
                 onMouseEnter={() => play("hover")}
               >
-                <Link href="/articles" className="flex items-center gap-2">
-                  Read Latest <ArrowRight className="h-4 w-4" />
+                <Link href="/agents" className="flex items-center gap-2">
+                  Browse Agents <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -205,8 +153,8 @@ export default function LandingPage() {
                 className="border-neutral-700 bg-neutral-900/50 text-neutral-200 hover:bg-neutral-800 hover:border-emerald-600/50 u-anim u-lift font-mono"
                 onMouseEnter={() => play("hover")}
               >
-                <Link href="/tools" className="flex items-center gap-2">
-                  Browse Tools <Layers className="h-4 w-4" />
+                <Link href="/systems" className="flex items-center gap-2">
+                  View Systems <Layers className="h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -230,48 +178,20 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Featured Articles */}
+      {/* About / Rationale */}
       <section className="relative z-10 py-20">
         <div className="container mx-auto px-4">
-          <div className="mb-12 flex items-end justify-between">
-            <div>
-              <h2 className="mb-2 text-3xl font-bold text-neutral-100">Latest Articles</h2>
-              <p className="text-neutral-400">Deep dives, benchmarks, and real reviews</p>
-            </div>
-            <Button
-              variant="ghost"
-              className="text-emerald-400 hover:text-emerald-300"
-              onMouseEnter={() => play("hover")}
-            >
-              View all <ChevronRight className="ml-1 h-4 w-4" />
-            </Button>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2">
-            {featuredArticles.map((article) => (
-              <Link
-                key={article.title}
-                href="#"
-                className="group block rounded-xl border border-neutral-800 bg-neutral-900/50 p-6 transition-all hover:border-emerald-600/50 hover:bg-neutral-900 u-anim u-lift"
-                onMouseEnter={() => play("hover")}
-              >
-                <div className="mb-3 flex items-center gap-3">
-                  <Badge
-                    variant="outline"
-                    className="border-emerald-700/50 bg-emerald-950/30 font-mono text-[10px] text-emerald-300"
-                  >
-                    {article.type}
-                  </Badge>
-                  <span className="text-xs text-neutral-500">{article.date}</span>
-                  <span className="text-xs text-neutral-500">·</span>
-                  <span className="text-xs text-neutral-500">{article.readTime} read</span>
-                </div>
-                <h3 className="mb-2 text-xl font-semibold text-neutral-100 group-hover:text-emerald-400 transition-colors">
-                  {article.title}
-                </h3>
-                <p className="text-neutral-400">{article.excerpt}</p>
-              </Link>
-            ))}
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="mb-6 text-3xl font-bold text-neutral-100">Why Agent HQ?</h2>
+            <p className="mb-6 text-lg text-neutral-400">
+              The AI agent landscape is exploding. New systems, frameworks, and tools appear daily.
+              Agent HQ is an attempt to organize this chaos into something usable.
+            </p>
+            <p className="text-neutral-400">
+              We catalog agent systems from major vendors (Anthropic, OpenAI, Google, Meta) 
+              and curate templates for common use cases. Whether you're building a frontend specialist 
+              or a security auditor, start here.
+            </p>
           </div>
         </div>
       </section>
@@ -281,14 +201,14 @@ export default function LandingPage() {
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
             <h2 className="mb-2 text-3xl font-bold text-neutral-100">Explore Categories</h2>
-            <p className="text-neutral-400">Find what you need across the voice AI landscape</p>
+            <p className="text-neutral-400">Find agents for your specific needs</p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {categories.map((category) => (
               <Link
                 key={category.name}
-                href="#"
+                href="/agents"
                 className="group flex items-center gap-4 rounded-xl border border-neutral-800 bg-neutral-900/50 p-4 transition-all hover:border-emerald-600/50 hover:bg-neutral-900 u-anim"
                 onMouseEnter={() => play("hover")}
               >
@@ -299,50 +219,56 @@ export default function LandingPage() {
                   <div className="font-medium text-neutral-100 group-hover:text-emerald-400 transition-colors">
                     {category.name}
                   </div>
-                  <div className="text-sm text-neutral-500">{category.count} tools</div>
+                  <div className="text-sm text-neutral-500">{category.desc}</div>
                 </div>
-                <ChevronRight className="h-5 w-5 text-neutral-600 group-hover:text-emerald-400 transition-colors" />
+                <ArrowRight className="h-5 w-5 text-neutral-600 group-hover:text-emerald-400 transition-colors" />
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Newsletter */}
+      {/* Featured Systems */}
       <section className="relative z-10 py-20">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-xl rounded-xl border border-neutral-800 bg-neutral-900/50 p-8 text-center">
-            <div className="mb-4 flex justify-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-950/50">
-                <Target className="h-6 w-6 text-emerald-400" />
-              </div>
+          <div className="mb-12 flex items-end justify-between">
+            <div>
+              <h2 className="mb-2 text-3xl font-bold text-neutral-100">Featured Systems</h2>
+              <p className="text-neutral-400">Production-ready agent systems from leading vendors</p>
             </div>
-            <h3 className="mb-2 text-2xl font-bold text-neutral-100">Stay Updated</h3>
-            <p className="mb-6 text-neutral-400">
-              Get the latest benchmarks and reviews delivered to your inbox.
-            </p>
+            <Button
+              variant="ghost"
+              className="text-emerald-400 hover:text-emerald-300"
+              onMouseEnter={() => play("hover")}
+            >
+              View all <ArrowRight className="ml-1 h-4 w-4" />
+            </Button>
+          </div>
 
-            {!subscribed ? (
-              <form onSubmit={handleSubscribe} className="flex gap-2">
-                <Input
-                  type="email"
-                  placeholder="your@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 border-neutral-700 bg-neutral-800 text-neutral-200 placeholder:text-neutral-500 focus:border-emerald-600 focus:ring-emerald-600/20"
-                  required
-                />
-                <Button
-                  type="submit"
-                  disabled={subscribing}
-                  className="bg-emerald-600 text-neutral-100 hover:bg-emerald-500 font-mono"
-                >
-                  {subscribing ? "..." : "Subscribe"}
-                </Button>
-              </form>
-            ) : (
-              <p className="text-emerald-400">Thanks for subscribing!</p>
-            )}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {SYSTEMS.slice(0, 6).map((sys) => (
+              <div
+                key={sys.id}
+                className="group rounded-xl border border-neutral-800 bg-neutral-900/50 p-4 transition-all hover:border-emerald-600/50 hover:bg-neutral-900 u-anim"
+              >
+                <div className="mb-2 flex items-center justify-between">
+                  <h3 className="font-bold text-neutral-100 group-hover:text-emerald-400 transition-colors">
+                    {sys.title}
+                  </h3>
+                  <Badge variant="outline" className="font-mono text-xs">
+                    v{sys.version}
+                  </Badge>
+                </div>
+                <p className="mb-3 text-sm text-neutral-500">{sys.license}</p>
+                <div className="flex flex-wrap gap-2">
+                  {sys.interfaces.map((iface) => (
+                    <span key={iface} className="text-xs bg-neutral-800 px-2 py-1 rounded text-neutral-400">
+                      {iface}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -353,16 +279,16 @@ export default function LandingPage() {
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <div className="flex items-center gap-2">
               <span className="font-mono text-sm font-bold tracking-[0.25em] uppercase text-neutral-100">
-                agentreport<span className="text-emerald-400">.io</span>
+                agent-hq<span className="text-emerald-400">.io</span>
               </span>
             </div>
             <div className="flex items-center gap-6 text-sm text-neutral-500">
-              <Link href="#" className="hover:text-emerald-400 transition-colors">About</Link>
-              <Link href="#" className="hover:text-emerald-400 transition-colors">Contact</Link>
-              <Link href="#" className="hover:text-emerald-400 transition-colors">RSS</Link>
+              <Link href="/agents" className="hover:text-emerald-400 transition-colors">Agents</Link>
+              <Link href="/systems" className="hover:text-emerald-400 transition-colors">Systems</Link>
+              <Link href="/tools" className="hover:text-emerald-400 transition-colors">Tools</Link>
             </div>
             <div className="text-sm text-neutral-600">
-              © 2026 Agent Report
+              © 2026 Agent HQ
             </div>
           </div>
         </div>
