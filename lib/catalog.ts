@@ -1,38 +1,126 @@
+/**
+ * Agent HQ Data Schema
+ * 
+ * This file defines the core data types for the Agent HQ directory.
+ * Each type represents a key entity in the agent ecosystem.
+ * 
+ * ## Entity Overview
+ * 
+ * 1. **Vendor** - Companies/organizations building AI agents
+ * 2. **System** - AI agent systems (products, tools)
+ * 3. **Template** - Pre-built agent configurations/templates
+ * 4. **Category** - Functional categories for organizing agents
+ * 
+ * ## URI Schemes
+ * 
+ * - Vendor: `vndr://{slug}` (e.g., vndr://anthropic)
+ * - System: `sys://{vendor}/{name}@{version}` (e.g., sys://anthropic/claude-code@1.2.0)
+ * - Template: `agt://{namespace}/{name}@{version}` (e.g., agt://agentlist/frontend-specialist@1.4.2)
+ */
+
+import { 
+  Code2, 
+  Layers, 
+  Box, 
+  Shield, 
+  Database, 
+  Cpu,
+  type LucideIcon 
+} from "lucide-react"
+
+/**
+ * A company or organization that builds AI agents
+ */
 export type Vendor = {
-  id: string // e.g., "vndr://anthropic"
+  /** Unique identifier using vndr:// scheme */
+  id: string
+  /** Display name */
   name: string
+  /** Company homepage URL */
   homepage?: string
+  /** Optional logo URL */
+  logo?: string
+  /** When the vendor was added */
   createdAt?: string
 }
 
+/**
+ * An AI agent system/product
+ */
 export type System = {
-  id: string // e.g., "sys://anthropic/claude-code@1.2.0"
+  /** Unique identifier using sys:// scheme with version */
+  id: string
+  /** Reference to vendor */
   vendorId: Vendor["id"]
-  name: string // slug, e.g., "claude-code"
-  title: string // display name, e.g., "Claude Code"
-  version: string // "1.2.0"
-  interfaces: ("editor" | "cli" | "api")[]
-  hosting: ("local" | "cloud")[]
-  capabilities?: Record<string, unknown>
-  license?: string
-  deprecated?: boolean
-  createdAt?: string
-}
-
-export type Template = {
-  id: string // "agt://agentlist/frontend-specialist@1.4.2"
-  namespace: string // "agentlist"
-  name: string // "frontend-specialist"
-  version: string // "1.4.2"
-  vendorId?: Vendor["id"] // optional
+  /** URL-safe slug */
+  name: string
+  /** Display name */
   title: string
-  tags?: string[]
-  manifest: Record<string, unknown>
-  readmeMd?: string
+  /** Semantic version string */
+  version: string
+  /** Available interfaces */
+  interfaces: Interface[]
+  /** Hosting options */
+  hosting: Hosting[]
+  /** Additional capabilities */
+  capabilities?: Record<string, unknown>
+  /** License type */
+  license?: string
+  /** Whether this system is deprecated */
+  deprecated?: boolean
+  /** When the system was added */
   createdAt?: string
 }
 
-// Mock catalog (aligned with your SQL model)
+export type Interface = "editor" | "cli" | "api"
+export type Hosting = "local" | "cloud"
+
+/**
+ * A pre-built agent template/configuration
+ */
+export type Template = {
+  /** Unique identifier using agt:// scheme with version */
+  id: string
+  /** Template namespace (e.g., "agentlist") */
+  namespace: string
+  /** URL-safe name */
+  name: string
+  /** Semantic version */
+  version: string
+  /** Optional vendor reference */
+  vendorId?: Vendor["id"]
+  /** Display title */
+  title: string
+  /** Descriptive tags */
+  tags?: string[]
+  /** Template manifest/configuration */
+  manifest: Record<string, unknown>
+  /** Optional README content */
+  readmeMd?: string
+  /** When the template was added */
+  createdAt?: string
+}
+
+/**
+ * A functional category for organizing agents
+ */
+export type Category = {
+  /** Unique slug */
+  id: string
+  /** Display name */
+  name: string
+  /** Category description */
+  description: string
+  /** Lucide icon component name */
+  icon: LucideIcon
+  /** Related tags for filtering */
+  tags?: string[]
+}
+
+// =============================================================================
+// Data
+// =============================================================================
+
 export const VENDORS: Vendor[] = [
   { id: "vndr://anthropic", name: "Anthropic", homepage: "https://www.anthropic.com" },
   { id: "vndr://openai", name: "OpenAI", homepage: "https://openai.com" },
@@ -152,7 +240,6 @@ export const TEMPLATES: Template[] = [
     namespace: "agentlist",
     name: "frontend-specialist",
     version: "1.4.2",
-    vendorId: undefined,
     title: "Frontend Specialist",
     tags: ["SSR", "RSC", "UI-Gen"],
     manifest: { runtime: "node", framework: "nextjs" },
@@ -200,7 +287,84 @@ export const TEMPLATES: Template[] = [
   },
 ]
 
+export const CATEGORIES: Category[] = [
+  { 
+    id: "frontend", 
+    name: "Frontend", 
+    description: "UI generation, SSR, component specs",
+    icon: Code2,
+    tags: ["ui", "react", "nextjs", "css"]
+  },
+  { 
+    id: "backend", 
+    name: "Backend", 
+    description: "API design, auth, caching",
+    icon: Layers,
+    tags: ["api", "rest", "graphql", "auth"]
+  },
+  { 
+    id: "devops", 
+    name: "DevOps", 
+    description: "Pipelines, policies, infrastructure",
+    icon: Box,
+    tags: ["ci", "cd", "kubernetes", "terraform"]
+  },
+  { 
+    id: "security", 
+    name: "Security", 
+    description: "SAST, DAST, vulnerability scanning",
+    icon: Shield,
+    tags: ["audit", "sast", "dast", "sbom"]
+  },
+  { 
+    id: "data", 
+    name: "Data", 
+    description: "SQL models, metrics, dashboards",
+    icon: Database,
+    tags: ["sql", "analytics", "bi", "etl"]
+  },
+  { 
+    id: "systems", 
+    name: "Systems", 
+    description: "Performance, profiling, optimization",
+    icon: Cpu,
+    tags: ["performance", "profiling", "optimization"]
+  },
+]
+
+// =============================================================================
 // Helpers
-export function vendorById(id: string) {
+// =============================================================================
+
+/**
+ * Find a vendor by ID
+ */
+export function vendorById(id: string): Vendor | undefined {
   return VENDORS.find((v) => v.id === id)
+}
+
+/**
+ * Find a system by ID
+ */
+export function systemById(id: string): System | undefined {
+  return SYSTEMS.find((s) => s.id === id)
+}
+
+/**
+ * Get all systems for a vendor
+ */
+export function systemsByVendor(vendorId: string): System[] {
+  return SYSTEMS.filter((s) => s.vendorId === vendorId)
+}
+
+/**
+ * Get all templates for a category based on tags
+ */
+export function templatesByCategory(categoryId: string): Template[] {
+  const category = CATEGORIES.find((c) => c.id === categoryId)
+  if (!category?.tags) return []
+  
+  return TEMPLATES.filter((t) => 
+    t.tags?.some((tag) => category.tags?.includes(tag))
+  )
 }

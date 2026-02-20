@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import { useSound } from "@/components/sound-provider"
-import { SYSTEMS, TEMPLATES, VENDORS } from "@/lib/catalog"
+import { SYSTEMS, TEMPLATES, VENDORS, CATEGORIES } from "@/lib/catalog"
 import {
   ArrowRight,
   Zap,
@@ -24,17 +24,18 @@ export default function LandingPage() {
 
   const stats = [
     { value: SYSTEMS.length, label: "Agent Systems", color: "text-emerald-400" },
-    { value: TEMPLATES.length, label: "Templates", color: "text-blue-400" },
-    { value: VENDORS.length, label: "Vendors", color: "text-violet-400" },
+    { value: TEMPLATES.length, label: "Templates", color: "text-emerald-400" },
+    { value: CATEGORIES.length, label: "Categories", color: "text-emerald-400" },
+    { value: VENDORS.length, label: "Vendors", color: "text-emerald-400" },
   ]
 
   const categories = [
-    { name: "Frontend", icon: Code2, count: 2, color: "text-blue-400", desc: "UI generation, SSR, component specs" },
+    { name: "Frontend", icon: Code2, count: 2, color: "text-emerald-400", desc: "UI generation, SSR, component specs" },
     { name: "Backend", icon: Layers, count: 1, color: "text-emerald-400", desc: "API design, auth, caching" },
-    { name: "DevOps", icon: Box, count: 1, color: "text-amber-400", desc: "Pipelines, policies, infrastructure" },
-    { name: "Security", icon: Shield, count: 1, color: "text-rose-400", desc: "SAST, DAST, vulnerability scanning" },
-    { name: "Data", icon: Database, count: 1, color: "text-cyan-400", desc: "SQL models, metrics, dashboards" },
-    { name: "Systems", icon: Cpu, count: 1, color: "text-violet-400", desc: "Performance, profiling, optimization" },
+    { name: "DevOps", icon: Box, count: 1, color: "text-emerald-400", desc: "Pipelines, policies, infrastructure" },
+    { name: "Security", icon: Shield, count: 1, color: "text-emerald-400", desc: "SAST, DAST, vulnerability scanning" },
+    { name: "Data", icon: Database, count: 1, color: "text-emerald-400", desc: "SQL models, metrics, dashboards" },
+    { name: "Systems", icon: Cpu, count: 1, color: "text-emerald-400", desc: "Performance, profiling, optimization" },
   ]
 
   return (
@@ -112,13 +113,13 @@ export default function LandingPage() {
               </Badge>
             </div>
 
-            <h1 className="mb-6 text-5xl font-bold tracking-tight text-neutral-100 sm:text-7xl">
+            <h1 className="mb-6 text-5xl font-bold tracking-tight text-neutral-100 sm:text-7xl font-[family-name:var(--font-fraunces)]">
               Agent HQ
               <br />
-              <span className="text-emerald-400">Your Agent Infrastructure</span>
+              <span className="text-emerald-400 font-[family-name:var(--font-space-grotesk)]">Your Agent Infrastructure</span>
             </h1>
 
-            <p className="mx-auto mb-10 max-w-2xl text-lg text-neutral-400">
+            <p className="mx-auto mb-10 max-w-2xl text-lg text-neutral-400 font-[family-name:var(--font-space-grotesk)]">
               A curated directory of AI agents, systems, and templates. 
               Built for developers who want to harness the power of autonomous agents.
             </p>
@@ -167,7 +168,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-wrap justify-center gap-12 sm:gap-16">
             {stats.map((stat) => (
-              <div key={stat.label} className="text-center">
+              <div key={stat.label} className="text-center cursor-pointer hover:scale-105 transition-transform">
                 <div className={cn("mb-1 text-3xl font-bold font-mono", stat.color)}>
                   {stat.value}
                 </div>
@@ -182,7 +183,7 @@ export default function LandingPage() {
       <section className="relative z-10 py-20">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
-            <h2 className="mb-6 text-3xl font-bold text-neutral-100">Why Agent HQ?</h2>
+            <h2 className="mb-6 text-3xl font-bold text-neutral-100 font-[family-name:var(--font-space-grotesk)]">Why Agent HQ?</h2>
             <p className="mb-6 text-lg text-neutral-400">
               The AI agent landscape is exploding. New systems, frameworks, and tools appear daily.
               Agent HQ is an attempt to organize this chaos into something usable.
@@ -200,7 +201,7 @@ export default function LandingPage() {
       <section className="relative z-10 border-y border-neutral-800/50 bg-neutral-900/30 py-20">
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
-            <h2 className="mb-2 text-3xl font-bold text-neutral-100">Explore Categories</h2>
+            <h2 className="mb-2 text-3xl font-bold text-neutral-100 font-[family-name:var(--font-space-grotesk)]">Explore Categories</h2>
             <p className="text-neutral-400">Find agents for your specific needs</p>
           </div>
 
@@ -209,14 +210,14 @@ export default function LandingPage() {
               <Link
                 key={category.name}
                 href="/agents"
-                className="group flex items-center gap-4 rounded-xl border border-neutral-800 bg-neutral-900/50 p-4 transition-all hover:border-emerald-600/50 hover:bg-neutral-900 u-anim"
+                className="group flex items-center gap-4 rounded-xl border border-neutral-800 bg-neutral-900/50 p-4 transition-all hover:border-emerald-600/50 hover:bg-neutral-900 u-anim cursor-pointer"
                 onMouseEnter={() => play("hover")}
               >
                 <div className={cn("flex h-12 w-12 items-center justify-center rounded-lg bg-neutral-800", category.color)}>
                   <category.icon className="h-6 w-6" />
                 </div>
                 <div className="flex-1">
-                  <div className="font-medium text-neutral-100 group-hover:text-emerald-400 transition-colors">
+                  <div className="font-medium text-neutral-100 group-hover:text-emerald-400 transition-colors font-[family-name:var(--font-space-grotesk)]">
                     {category.name}
                   </div>
                   <div className="text-sm text-neutral-500">{category.desc}</div>
@@ -233,7 +234,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-4">
           <div className="mb-12 flex items-end justify-between">
             <div>
-              <h2 className="mb-2 text-3xl font-bold text-neutral-100">Featured Systems</h2>
+              <h2 className="mb-2 text-3xl font-bold text-neutral-100 font-[family-name:var(--font-space-grotesk)]">Featured Systems</h2>
               <p className="text-neutral-400">Production-ready agent systems from leading vendors</p>
             </div>
             <Button
@@ -252,17 +253,17 @@ export default function LandingPage() {
                 className="group rounded-xl border border-neutral-800 bg-neutral-900/50 p-4 transition-all hover:border-emerald-600/50 hover:bg-neutral-900 u-anim"
               >
                 <div className="mb-2 flex items-center justify-between">
-                  <h3 className="font-bold text-neutral-100 group-hover:text-emerald-400 transition-colors">
+                  <h3 className="font-bold text-neutral-100 group-hover:text-emerald-400 transition-colors font-[family-name:var(--font-space-grotesk)]">
                     {sys.title}
                   </h3>
                   <Badge variant="outline" className="font-mono text-xs">
                     v{sys.version}
                   </Badge>
                 </div>
-                <p className="mb-3 text-sm text-neutral-500">{sys.license}</p>
+                <p className="mb-3 text-sm text-neutral-500 font-mono">{sys.license}</p>
                 <div className="flex flex-wrap gap-2">
                   {sys.interfaces.map((iface) => (
-                    <span key={iface} className="text-xs bg-neutral-800 px-2 py-1 rounded text-neutral-400">
+                    <span key={iface} className="text-xs bg-neutral-800 px-2 py-1 rounded text-neutral-400 font-mono">
                       {iface}
                     </span>
                   ))}
@@ -273,8 +274,68 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Documentation */}
+      <section className="relative z-10 border-y border-neutral-800/50 bg-neutral-900/30 py-16">
+        <div className="container mx-auto px-4">
+          <div className="mb-8 text-center">
+            <h2 className="mb-2 text-3xl font-bold text-neutral-100 font-[family-name:var(--font-space-grotesk)]">Data Schema</h2>
+            <p className="text-neutral-400">The structure that powers Agent HQ</p>
+          </div>
+          
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <Link 
+              href="https://github.com/tawkiebot/agent-hq/blob/main/lib/catalog.ts"
+              className="group rounded-xl border border-neutral-800 bg-neutral-900/50 p-4 transition-all hover:border-emerald-600/50 hover:bg-neutral-900 u-anim cursor-pointer"
+            >
+              <h3 className="font-bold text-neutral-100 group-hover:text-emerald-400 transition-colors font-[family-name:var(--font-space-grotesk)] mb-2">
+                Types & Interfaces
+              </h3>
+              <p className="text-sm text-neutral-400 font-mono">
+                Vendor, System, Template, Category
+              </p>
+            </Link>
+            
+            <Link 
+              href="https://github.com/tawkiebot/agent-hq/blob/main/lib/catalog.ts"
+              className="group rounded-xl border border-neutral-800 bg-neutral-900/50 p-4 transition-all hover:border-emerald-600/50 hover:bg-neutral-900 u-anim cursor-pointer"
+            >
+              <h3 className="font-bold text-neutral-100 group-hover:text-emerald-400 transition-colors font-[family-name:var(--font-space-grotesk)] mb-2">
+                URI Schemes
+              </h3>
+              <p className="text-sm text-neutral-400 font-mono">
+                vndr://, sys://, agt://
+              </p>
+            </Link>
+            
+            <Link 
+              href="https://github.com/tawkiebot/agent-hq/blob/main/lib/catalog.ts"
+              className="group rounded-xl border border-neutral-800 bg-neutral-900/50 p-4 transition-all hover:border-emerald-600/50 hover:bg-neutral-900 u-anim cursor-pointer"
+            >
+              <h3 className="font-bold text-neutral-100 group-hover:text-emerald-400 transition-colors font-[family-name:var(--font-space-grotesk)] mb-2">
+                Helper Functions
+              </h3>
+              <p className="text-sm text-neutral-400 font-mono">
+                vendorById, systemsByVendor
+              </p>
+            </Link>
+            
+            <Link 
+              href="https://github.com/tawkiebot/agent-hq/blob/main/lib/catalog.ts"
+              className="group rounded-xl border border-neutral-800 bg-neutral-900/50 p-4 transition-all hover:border-emerald-600/50 hover:bg-neutral-900 u-anim cursor-pointer"
+            >
+              <h3 className="font-bold text-neutral-100 group-hover:text-emerald-400 transition-colors font-[family-name:var(--font-space-grotesk)] mb-2">
+                Data Export
+              </h3>
+              <p className="text-sm text-neutral-400 font-mono">
+                VENDORS, SYSTEMS, TEMPLATES, CATEGORIES
+              </p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer className="relative z-10 border-t border-neutral-800/50 bg-neutral-950 py-8">
+      <footer className="relative z-10 border-t border-neutral-800/50 bg-neutral-950 py-8 font-[family-name:var(--font-space-grotesk)]">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <div className="flex items-center gap-2">
