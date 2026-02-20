@@ -1,0 +1,19 @@
+{
+  "project": "agent-hq",
+  "version": "0.0.0",
+  "generatedAt": "2026-02-20T23:34:45.351Z",
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "description": "Introduction to Agent HQ - AI Agent Directory",
+      "content": "# Agent HQ\n\nA directory of AI agents, systems, and templates. Built for developers.\n\n## What is Agent HQ?\n\nAgent HQ is a public directory that catalogs AI agent systems from major vendors (Anthropic, OpenAI, Google, Meta, etc.) and curates templates for common use cases.\n\n## Key Features\n\n- **Vendor Directory**: Companies building AI agents\n- **System Catalog**: Production-ready agent systems with versions, interfaces, hosting options\n- **Template Library**: Pre-built agent configurations (Frontend Specialist, Security Audit, etc.)\n- **Category Organization**: Functional categories (Frontend, Backend, DevOps, Security, Data, Systems)\n- **Well-documented Data Schema**: TypeScript types with JSDoc in lib/catalog.ts\n\n## Tech Stack\n\n- Next.js 15 with static export\n- Bun as package manager\n- Tailwind CSS\n- Radix UI components\n\n## Quick Links\n\n- [Quickstart](./quickstart.md) - Get started in 5 minutes\n- [Data Schema](../lib/catalog.ts) - Type definitions"
+    },
+    {
+      "id": "quickstart",
+      "title": "Quickstart",
+      "description": "Get started with Agent HQ",
+      "content": "# Quickstart\n\nGet up and running with Agent HQ in under 5 minutes.\n\n## Prerequisites\n\n- Bun (recommended) or npm/pnpm\n- Node.js >= 18\n\n## Installation\n\n```bash\n# Clone the repository\ngit clone https://github.com/tawkiebot/agent-hq.git\ncd agent-hq\n\n# Install dependencies\nbun install\n```\n\n## Development\n\n```bash\n# Start dev server\nbun run dev\n```\n\nThe app runs at http://localhost:3000\n\n## Building for Production\n\n```bash\n# Build static export\nbun run build\n\n# Output is in ./out directory\n```\n\n## Data Schema\n\nThe data types are defined in `lib/catalog.ts`:\n\n```typescript\nimport { VENDORS, SYSTEMS, TEMPLATES, CATEGORIES } from '@/lib/catalog'\n```\n\n## Deployment\n\nThe project auto-deploys to GitHub Pages on push to main. See `.github/workflows/deploy.yml`."
+    }
+  ]
+}
